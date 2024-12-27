@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -91,6 +92,9 @@ public class AddEditAlarmActivity extends AppCompatActivity {
                 if (days[i]) {
                     int dayOfWeek = i + 1; // Calendar.SUNDAY = 1, Calendar.MONDAY = 2, ...
                     calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+
+                    String dayName = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}[i];
+                    Toast.makeText(this, dayName , Toast.LENGTH_SHORT).show();
 
                     // 設定 AlarmManager 觸發鬧鐘
                     setAlarm(AddEditAlarmActivity.this, calendar);

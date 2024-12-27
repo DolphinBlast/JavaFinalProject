@@ -1,12 +1,15 @@
 package ntutee.team3.JavaFinalProject;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,8 +45,11 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         });
 
         holder.deleteButton.setOnClickListener(v -> {
+            cancelAlarm(position);
+
             alarmList.remove(position);
             notifyItemRemoved(position);
+            Toast.makeText(context, "Alarm canceled", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -63,5 +69,20 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             editButton = itemView.findViewById(R.id.button_edit);
             deleteButton = itemView.findViewById(R.id.button_delete);
         }
+    }
+    private void cancelAlarm(int position) {
+        Intent intent = new Intent(context, AlarmReceiver.class);
+
+        // 使用 position 作為唯一的請求碼
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                position,
+                intent,
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // 取消鬧鐘
+        alarmManager.cancel(pendingIntent);
+        pendingIntent.cancel();
     }
 }

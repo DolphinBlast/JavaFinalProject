@@ -4,7 +4,7 @@
 
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -29,6 +29,8 @@
 
         <receiver android:name=".AlarmReceiver"/>
         <activity android:name=".AddEditAlarmActivity" />
+        <receiver android:name=".CancelAlarmReceiver" />
+
     </application>
 
 </manifest>

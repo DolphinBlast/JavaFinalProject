@@ -45,7 +45,7 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
         });
 
         holder.deleteButton.setOnClickListener(v -> {
-            cancelAlarm(position);
+            cancelAlarm(alarm);
 
             alarmList.remove(position);
             notifyItemRemoved(position);
@@ -70,19 +70,27 @@ public class AlarmAdapter extends RecyclerView.Adapter<AlarmAdapter.AlarmViewHol
             deleteButton = itemView.findViewById(R.id.button_delete);
         }
     }
-    private void cancelAlarm(int position) {
+    private void cancelAlarm(Alarm alarm) {
         Intent intent = new Intent(context, AlarmReceiver.class);
 
-        // 使用 position 作為唯一的請求碼
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context,
-                position,
-                intent,
-                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
-        );
+        // 使用與設置鬧鐘相同的 requestCode 計算邏輯
+        for (int i = 0; i < alarm.getDays().length; i++) {
+            if (alarm.getDays()[i]) {
+                int dayOfWeek = i + 1; // Calendar.SUNDAY = 1, Calendar.MONDAY = 2, ...
+                int requestCode = dayOfWeek * 100 + alarm.getHour() * 10 + alarm.getMinute();
 
-        // 取消鬧鐘
-        alarmManager.cancel(pendingIntent);
-        pendingIntent.cancel();
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                        context,
+                        requestCode,
+                        intent,
+                        PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                );
+
+                // 取消鬧鐘
+                alarmManager.cancel(pendingIntent);
+                pendingIntent.cancel();
+            }
+        }
     }
+
 }

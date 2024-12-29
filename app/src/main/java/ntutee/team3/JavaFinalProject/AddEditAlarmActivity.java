@@ -20,6 +20,33 @@ public class AddEditAlarmActivity extends AppCompatActivity {
 
 
 
+    public int generateRequestCode(int dayOfWeek, int hour, int minute) {
+        return dayOfWeek * 100 + hour * 10 + minute;
+    }
+
+
+    private void cancelAlarm(Context context, int requestCode) {
+        // 1. 獲取 AlarmManager
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        // 2. 準備對應的 PendingIntent
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                requestCode,
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // 3. 使用 AlarmManager 取消鬧鐘
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(context, "Alarm canceled", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Failed to cancel alarm: AlarmManager unavailable", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void setAlarm(Context context, Calendar calendar, int requestCode) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -64,11 +91,21 @@ public class AddEditAlarmActivity extends AppCompatActivity {
                 findViewById(R.id.checkbox_saturday)
         };
 
-        days = new boolean[7]; // 預設每週七天皆未選中
+
 
         saveButton.setOnClickListener(v -> {
+
+            days = new boolean[7];// 預設每週七天皆未選中
+
             int hour = timePicker.getHour();
             int minute = timePicker.getMinute();
+
+            int oldRequestCode = getIntent().getIntExtra("requestCode", -1);
+
+            if (oldRequestCode != -1) {
+                cancelAlarm(AddEditAlarmActivity.this, oldRequestCode);
+                Toast.makeText(this, "old"+oldRequestCode, Toast.LENGTH_SHORT).show();
+            }
 
             int isAnyDaySelected = 0;
 
@@ -99,20 +136,44 @@ public class AddEditAlarmActivity extends AppCompatActivity {
                     int dayOfWeek = i + 1; // Calendar.SUNDAY = 1, Calendar.MONDAY = 2, ...
                     calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 
+
+
                     // 使用唯一的 requestCode 區分不同的 PendingIntent
-                    int requestCode = dayOfWeek * 100 + hour * 10 + minute;
+                    int requestCode = generateRequestCode(dayOfWeek, hour, minute);
                     setAlarm(AddEditAlarmActivity.this, calendar, requestCode);
+                    Toast.makeText(this, "set"+requestCode, Toast.LENGTH_SHORT).show();
+
 
                     String dayName = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}[i];
                     Toast.makeText(this, "Alarm set for " + dayName, Toast.LENGTH_SHORT).show();
                 }
             }
 
+            int dayOfWeek = -1; // 初始化為一個無效值（例如 -1）
+
+            for (int i = 0; i < 7; i++) {
+                if (days[i]) {
+                    dayOfWeek = i + 1;
+                    break; // 找到第一個匹配的天數後即可退出迴圈
+                }
+            }
+
+            if (dayOfWeek == -1) {
+                throw new IllegalStateException("No day selected for the alarm");
+            }
+
+
+            int newRequestCode = generateRequestCode(dayOfWeek, hour, minute);
+
+
+
             // 返回設置結果
             Intent resultIntent = new Intent();
             resultIntent.putExtra("hour", hour);
             resultIntent.putExtra("minute", minute);
             resultIntent.putExtra("days", days);
+            resultIntent.putExtra("requestCode", newRequestCode);
+
 
             if (getIntent().hasExtra("position")) {
                 resultIntent.putExtra("position", getIntent().getIntExtra("position", -1));

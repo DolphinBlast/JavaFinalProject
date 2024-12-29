@@ -41,7 +41,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
 
         // Intent 來處理停止鬧鐘聲音的行為
-        Intent stopIntent = new Intent(context, CancelAlarmReceiver.class);
+        Intent stopIntent = new Intent(context, stopAlarmReceiver.class);
         stopIntent.putExtra("notification_id", 1); // 傳遞通知 ID，方便取消
 
         PendingIntent stopPendingIntent = PendingIntent.getBroadcast(

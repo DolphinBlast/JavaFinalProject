@@ -29,7 +29,7 @@
 
         <receiver android:name=".AlarmReceiver"/>
         <activity android:name=".AddEditAlarmActivity" />
-        <receiver android:name=".CancelAlarmReceiver" />
+        <receiver android:name=".stopAlarmReceiver" />
 
     </application>
 

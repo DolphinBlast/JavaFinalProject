@@ -104,7 +104,7 @@ public class AddEditAlarmActivity extends AppCompatActivity {
 
             if (oldRequestCode != -1) {
                 cancelAlarm(AddEditAlarmActivity.this, oldRequestCode);
-                Toast.makeText(this, "old"+oldRequestCode, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "old"+oldRequestCode, Toast.LENGTH_SHORT).show();
             }
 
             int isAnyDaySelected = 0;
@@ -141,7 +141,7 @@ public class AddEditAlarmActivity extends AppCompatActivity {
                     // 使用唯一的 requestCode 區分不同的 PendingIntent
                     int requestCode = generateRequestCode(dayOfWeek, hour, minute);
                     setAlarm(AddEditAlarmActivity.this, calendar, requestCode);
-                    Toast.makeText(this, "set"+requestCode, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "set"+requestCode, Toast.LENGTH_SHORT).show();
 
 
                     String dayName = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}[i];

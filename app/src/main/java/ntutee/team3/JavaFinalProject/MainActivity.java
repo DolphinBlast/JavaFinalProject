@@ -47,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
                         int minute = data.getIntExtra("minute", 0);
                         boolean[] days = data.getBooleanArrayExtra("days");
                         int position = data.getIntExtra("position", -1);
+                        int requestCode = data.getIntExtra("requestCode", 0);
 
                         if (position == -1) { // 新增鬧鐘
-                            Alarm alarm = new Alarm(hour, minute, days);
+
+                            Alarm alarm = new Alarm(requestCode, hour, minute, days);
                             alarmList.add(alarm);
                             adapter.notifyItemInserted(alarmList.size() - 1);
                             Toast.makeText(this, "Alarm Added", Toast.LENGTH_SHORT).show();
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("minute", alarm.getMinute());
         intent.putExtra("days", alarm.getDays());
         intent.putExtra("position", position);
+        intent.putExtra("requestCode", alarm.getRequestCode()); // 傳遞舊的 requestCode
         alarmLauncher.launch(intent);
     }
 }

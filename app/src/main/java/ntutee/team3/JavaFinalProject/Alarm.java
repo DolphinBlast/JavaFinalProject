@@ -4,8 +4,10 @@ public class Alarm {
     private int hour;
     private int minute;
     private boolean[] days; // 一周的天數
+    private int requestCode;
 
-    public Alarm(int hour, int minute, boolean[] days) {
+    public Alarm(int requestCode,int hour, int minute, boolean[] days) {
+        this.requestCode = requestCode;
         this.hour = hour;
         this.minute = minute;
         this.days = days;
@@ -35,6 +37,14 @@ public class Alarm {
         if (days != null && days.length == 7) {
             this.days = days.clone();
         }
+    }
+
+    public int getRequestCode() {
+        return requestCode;
+    }
+
+    public void setRequestCode(int requestCode) {
+        this.requestCode = requestCode;
     }
 
 

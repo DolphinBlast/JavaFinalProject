@@ -30,6 +30,7 @@
 
         <receiver android:name=".AlarmReceiver"/>
         <activity android:name=".AddEditAlarmActivity" />
+        <activity android:name=".WeatherActivity" />
         <receiver android:name=".stopAlarmReceiver" />
 
     </application>

@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "JavaFinalProject"
 include(":app")
- 
+include(":unityLibrary")

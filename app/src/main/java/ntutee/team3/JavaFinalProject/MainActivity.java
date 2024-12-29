@@ -3,19 +3,21 @@ package ntutee.team3.JavaFinalProject;
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends UnityPlayerActivity {
     private RecyclerView recyclerView;
     private AlarmAdapter adapter;
     private ArrayList<Alarm> alarmList;
@@ -27,8 +29,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        LinearLayout linearLayout = findViewById(R.id.unityView);
+        linearLayout.addView(mUnityPlayer);
+
         recyclerView = findViewById(R.id.recycler_view);
-        FloatingActionButton fab = findViewById(R.id.fab_add_alarm);
+        FloatingActionButton fab_alarm = findViewById(R.id.fab_add_alarm);
+        FloatingActionButton fab_cloud = findViewById(R.id.fab_cloud_weather);
 
         alarmList = new ArrayList<>();
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new AlarmAdapter(alarmList, this, alarmManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        /**/
 
         // 初始化 Activity Result API
         alarmLauncher = registerForActivityResult(
@@ -68,9 +76,14 @@ public class MainActivity extends AppCompatActivity {
         );
 
         // 設置浮動按鈕點擊事件
-        fab.setOnClickListener(view -> {
+        fab_alarm.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AddEditAlarmActivity.class);
             alarmLauncher.launch(intent);
+        });
+
+        fab_cloud.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+            startActivity(intent);
         });
     }
 

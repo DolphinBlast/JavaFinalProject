@@ -14,6 +14,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.addAll(listOf("armeabi", "armeabi-v7a", "x86", "mips","x86_64"))
+        }
     }
 
     buildTypes {
@@ -43,4 +47,6 @@ dependencies {
 
     implementation(libs.gson)
     implementation(libs.okhttp)
+    implementation(project(":unityLibrary"))
+    implementation(fileTree(mapOf("dir" to "../unityLibrary/libs", "include" to listOf("*.jar"))))
 }

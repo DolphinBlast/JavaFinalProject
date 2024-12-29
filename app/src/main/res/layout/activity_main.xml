@@ -16,12 +16,20 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
+    <LinearLayout
+        android:id="@+id/unityView"
+        android:layout_width="match_parent"
+        android:layout_height="40mm"
+        android:layout_below="@id/textView2"
+        android:orientation="horizontal"
+        />
+
     <!-- RecyclerView for displaying alarms -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textView2"
+        android:layout_below="@id/unityView"
         android:layout_above="@id/fab_add_alarm"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp" />
@@ -37,6 +45,18 @@
         android:contentDescription="@string/add_alarm"
         android:elevation="6dp"
         android:src="@drawable/baseline_add_box_24"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_cloud_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/open_weather"
+        android:elevation="6dp"
+        android:src="@drawable/baseline_weather_box_24"
         app:tint="@color/white" />
 
 </RelativeLayout>

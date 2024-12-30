@@ -12,7 +12,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.os.Process;
 
-public class UnityPlayerActivity extends Activity implements IUnityPlayerLifecycleEvents
+import androidx.appcompat.app.AppCompatActivity;
+
+public class UnityPlayerActivity extends AppCompatActivity implements IUnityPlayerLifecycleEvents
 {
     protected UnityPlayer mUnityPlayer; // don't change the name of this variable; referenced from native code
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class MainActivity extends UnityPlayerActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         /**/
-
+        SetRandomAnimation();
         // 初始化 Activity Result API
         alarmLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -95,5 +96,23 @@ public class MainActivity extends UnityPlayerActivity {
         intent.putExtra("position", position);
         intent.putExtra("requestCode", alarm.getRequestCode()); // 傳遞舊的 requestCode
         alarmLauncher.launch(intent);
+    }
+
+    private void SetRandomAnimation()
+    {
+        new Thread(() -> {
+            String[] animation = {"greet", "negative", "positive", "shock", "think"};
+            while (true) {
+                try {
+                    int sec = 1000 * (int) (Math.random() * 5 + 10);
+                    Thread.sleep(sec);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                int index = (int) (Math.random() * 5);
+                UnityPlayer.UnitySendMessage("Spine4604", "PLayAnimation", animation[index]);
+            }
+
+        }).start();
     }
 }

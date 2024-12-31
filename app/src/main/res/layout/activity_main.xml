@@ -24,6 +24,10 @@
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/b"/>
 
     <!-- RecyclerView for displaying alarms -->
     <androidx.recyclerview.widget.RecyclerView

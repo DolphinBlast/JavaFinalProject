@@ -11,6 +11,9 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
+
+import com.unity3d.player.UnityPlayer;
+
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "ALARM_NOTIFICATION_CHANNEL";
     public static MediaPlayer mediaPlayer;
@@ -23,6 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             mediaPlayer.setLooping(true); // 設置鬧鐘聲音循環播放
             mediaPlayer.start();
         }
+        UnityAnimationController.AlarmRinning = true;
+        UnityAnimationController.ReplayAnimation();
 
         // 創建靜音通知頻道
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -63,4 +68,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         // 發送通知
         notificationManager.notify(1, notificationBuilder.build());
     }
+
+
 }

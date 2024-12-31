@@ -6,13 +6,10 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
-
-import com.unity3d.player.UnityPlayer;
 
 public class AlarmReceiver extends BroadcastReceiver {
     private static final String CHANNEL_ID = "ALARM_NOTIFICATION_CHANNEL";
@@ -26,8 +23,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             mediaPlayer.setLooping(true); // 設置鬧鐘聲音循環播放
             mediaPlayer.start();
         }
-        UnityAnimationController.AlarmRinning = true;
-        UnityAnimationController.ReplayAnimation();
+        UnityAnimationController.AlarmRinging = true;
+        UnityAnimationController.AlarmAnimation(); //執行響鈴動畫
 
         // 創建靜音通知頻道
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

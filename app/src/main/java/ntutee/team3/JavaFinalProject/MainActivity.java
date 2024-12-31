@@ -3,8 +3,6 @@ package ntutee.team3.JavaFinalProject;
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.ArrayList;
@@ -49,7 +46,6 @@ public class MainActivity extends UnityPlayerActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        UnityAnimationController.SetRandomAnimation();
 
         // 初始化 Activity Result API
         alarmLauncher = registerForActivityResult(
@@ -91,6 +87,19 @@ public class MainActivity extends UnityPlayerActivity {
             Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
             startActivity(intent);
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        UnityAnimationController.AlarmRinging = false;
+        UnityAnimationController.SetRandomAnimationLoop();  //連接Unity視圖並啟動動畫
+    }
+    protected void onPause()
+    {
+        super.onPause();
+        UnityAnimationController.AlarmRinging = true;
     }
 
     public void editAlarm(int position, Alarm alarm) {

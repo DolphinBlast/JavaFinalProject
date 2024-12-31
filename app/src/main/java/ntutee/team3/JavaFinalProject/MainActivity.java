@@ -3,6 +3,8 @@ package ntutee.team3.JavaFinalProject;
 import android.app.AlarmManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -18,12 +20,15 @@ import com.unity3d.player.UnityPlayerActivity;
 
 import java.util.ArrayList;
 
+
+
 public class MainActivity extends UnityPlayerActivity {
     private RecyclerView recyclerView;
     private AlarmAdapter adapter;
     private ArrayList<Alarm> alarmList;
     private AlarmManager alarmManager;
     private ActivityResultLauncher<Intent> alarmLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +49,8 @@ public class MainActivity extends UnityPlayerActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        /**/
-        SetRandomAnimation();
+        UnityAnimationController.SetRandomAnimation();
+
         // 初始化 Activity Result API
         alarmLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -98,21 +103,5 @@ public class MainActivity extends UnityPlayerActivity {
         alarmLauncher.launch(intent);
     }
 
-    private void SetRandomAnimation()
-    {
-        new Thread(() -> {
-            String[] animation = {"greet", "negative", "positive", "shock", "think"};
-            while (true) {
-                try {
-                    int sec = 1000 * (int) (Math.random() * 5 + 10);
-                    Thread.sleep(sec);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                int index = (int) (Math.random() * 5);
-                UnityPlayer.UnitySendMessage("Spine4604", "PLayAnimation", animation[index]);
-            }
 
-        }).start();
-    }
 }

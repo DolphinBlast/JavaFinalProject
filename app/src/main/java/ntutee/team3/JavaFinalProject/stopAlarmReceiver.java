@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
+import com.unity3d.player.UnityPlayer;
+
 public class stopAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -25,5 +27,6 @@ public class stopAlarmReceiver extends BroadcastReceiver {
 
         // 顯示提示訊息
         Toast.makeText(context, "Alarm Sound Stopped", Toast.LENGTH_SHORT).show();
+        UnityAnimationController.AlarmRinning = false;
     }
 }
